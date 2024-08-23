@@ -1,4 +1,5 @@
 const userModel = require('../Models/Usermodel');
+
 const tf = require('@tensorflow/tfjs');
 
 
@@ -7,7 +8,7 @@ const trainModel = async () => {
         const users = await userModel.find({});
 
         const allSkills = Array.from(new Set(users.flatMap(user => user.skills)));
-        const allCareerPaths = ["Software Engineer", "Machine Learning Engineer", "Data Scientist"];
+        const allCareerPaths = ["Web Development", "Software Engineer", "Machine Learning Engineer", "Data Scientist"];
 
         const careerPathIndexMap = {};
         allCareerPaths.forEach((path, index) => {
@@ -30,6 +31,7 @@ const trainModel = async () => {
             featureVectors.push(featureVector);
 
             const label = new Array(allCareerPaths.length).fill(0);
+            
             if (user.careerPath.length > 0) {
                 user.careerPath.forEach(path => {
                     if (careerPathIndexMap[path] !== undefined) {
@@ -51,7 +53,7 @@ const trainModel = async () => {
 
         model.compile({ optimizer: 'adam', loss: 'categoricalCrossentropy', metrics: ['accuracy'] });
 
-    
+
         await model.fit(inputTensor, outputTensor, {
             epochs: 50,
             shuffle: true
