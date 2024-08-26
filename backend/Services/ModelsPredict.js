@@ -1,14 +1,14 @@
+// ModelPredict.js
 const tf = require('@tensorflow/tfjs');
 const { trainModel } = require('./TrainModel');
-const userModel = require('../Models/Usermodel');
 
 const predictCareerPath = async (studentSkills) => {
     try {
         const model = await trainModel();
 
-        const users = await userModel.find({});
-        const allSkills = Array.from(new Set(users.flatMap(user => user.skills)));
-
+        // Define skills and their corresponding career paths
+        const allSkills = ["react js", "node js", "machine learning"];
+        const careerPaths = ["Frontend Developer", "Backend Developer", "AI"];
 
         const skillIndexMap = {};
         allSkills.forEach((skill, index) => {
@@ -17,8 +17,9 @@ const predictCareerPath = async (studentSkills) => {
 
         const featureVector = new Array(allSkills.length).fill(0);
         studentSkills.forEach(skill => {
-            if (skillIndexMap[skill] !== undefined) {
-                featureVector[skillIndexMap[skill]] = 1;
+            const normalizedSkill = skill.toLowerCase().trim();
+            if (skillIndexMap[normalizedSkill] !== undefined) {
+                featureVector[skillIndexMap[normalizedSkill]] = 1;
             }
         });
 
@@ -26,7 +27,7 @@ const predictCareerPath = async (studentSkills) => {
 
         const predictions = model.predict(inputTensor);
         const predictedIndex = predictions.argMax(-1).dataSync()[0];
-        const predictedCareerPath = ["Software Engineer", "Machine Learning Engineer", "Data Scientist"][predictedIndex];
+        const predictedCareerPath = careerPaths[predictedIndex];
 
         return predictedCareerPath;
     } catch (error) {

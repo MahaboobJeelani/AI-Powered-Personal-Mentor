@@ -15,7 +15,7 @@ router.post('/login', login)
 router.get('/:id/verify/:token', tokenVerification)
 router.post('/editprofile/:id', upload, userData)
 router.get('/profile/:userid', getUserDetails)
-router.get('/career-advice/:id', getCareerAdvice);
+router.get('/career-advice/:userid', getCareerAdvice);
 router.put('/edit-profile/:userid', editUser)
 
 module.exports = router;

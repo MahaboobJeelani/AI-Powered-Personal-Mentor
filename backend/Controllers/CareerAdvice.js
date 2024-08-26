@@ -1,13 +1,13 @@
-const userModel = require('../Models/Usermodel')
+// CareerAdvice.js
+const userModel = require('../Models/Usermodel');
 const predictCareerPath = require('../Services/ModelsPredict');
 
-
 const getCareerAdvice = async (req, res) => {
-    const { id } = req.params;
+    const { userid } = req.params;
 
     try {
-        const findUser = await userModel.findById(id);
-        console.log(id, findUser);
+        const findUser = await userModel.findOne({ 'user': userid });
+
         if (!findUser) {
             return res.status(404).json({ error: 'User not found' });
         }
@@ -25,4 +25,4 @@ const getCareerAdvice = async (req, res) => {
     }
 };
 
-module.exports = getCareerAdvice
+module.exports = getCareerAdvice;
