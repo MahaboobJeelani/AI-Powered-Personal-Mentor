@@ -6,6 +6,7 @@ const userSchema = new mongoose.Schema({
     age: { type: Number, min: 0, max: 120 },
     gender: { type: String, enum: ['Male', 'Female', 'Other'], required: true },
     profile: { type: String, required: true },
+    resume: { type: String, default: null },
     location: { type: String },
     education: { type: String },
     experience: { type: Number, min: 0 },

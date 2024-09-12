@@ -35,5 +35,4 @@ async function getLearningRecommendations(req, res) {
     }
 }
 
-module.exports =
-    getLearningRecommendations
+module.exports = getLearningRecommendations
